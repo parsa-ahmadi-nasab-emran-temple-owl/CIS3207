@@ -1,5 +1,5 @@
 # CIS3207
-Projects
+Projects:
 The projects that we will work on in this class are the following:
 1. Event Simulator
 2. Shell
