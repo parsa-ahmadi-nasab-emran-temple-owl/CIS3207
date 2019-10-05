@@ -1,0 +1,111 @@
+Pseudocode for Main
+===================
+
+1. Initialize Three FIFO QUEUES as LinkedList
+2. Initialize One Priority queue as LinkedList
+3. Define structs event
+4. Define structs node
+5. Initialize SEED, INIT_TIME, FIN_TIME, ARRIVE_MIN, ARRIVE_MAX
+	QUIT_PROB, CPU_MIN, CPU_MAX, DISK1_MIN, DISK1_MAX, DISK2_MIN, DISK2_MAX
+6. 	Add two events to priority queue, job1 arrival and simulation finished
+7.  while queue is not empty
+    7.1 print event node information
+        7.1.1 while eventNodes is not NULL and currentTime is less than finish time
+		    7.1.2 Pop events from event queue and place them inside cpu queue
+		    7.1.3 Set task to first event
+		    7.1.4 Set currentTime to time of task
+		    7.1.5 switch case on Task Type
+			    7.1.5.1 In case ---> ARRIVAL call method process_CPU on task
+                7.1.5.2 In case ---> FINISH call method process_CPU on task
+                7.1.5.3 In case ---> DISK_ARRIVAL call method process_DISK on task
+                7.1.5.4 In case ---> DISK_FINISH call method process_DISK on task
+                7.1.5.5 In case ---> SIMULATION_END break from switch case
+
+process_CPU Pseudocode
+======================
+8.  If task arrives at CPU
+	  	8.1 create new event
+	  	8.2 append event to event queue
+	  	8.3 send task to CPU FIFO
+	  	    8.3.1	If CPU State is BUSY
+	  			8.3.1.1 pass
+			8.3.2   If CPU State is IDLE
+			  8.3.2.1. Pop task from CPU FIFO
+			  8.3.2.2. Generate finish time with CPU_MIN and CPU_MAX
+			  8.3.2.3. Create CPU finish event
+			  8.3.2.4. Insert Event in Event queue
+			  8.3.2.5. Set CPU State to BUSY
+	
+    If task finished at CPU
+	    8.4.1 Set CPU State to IDLE
+    Call method prob with parameters exit and use disk
+		if exit
+		    pass
+		If disk in use
+			Create disk arrival event
+			Insert Event in Event Queue
+
+process_DISK Pseudocode
+=======================
+9.	If task arrived at the DISK
+	  	9.1 Select shortest disk. if both disk are equal, randomly pick one to use.
+	  	9.2 Send event to chosen disk FIFO
+		  	9.3 If diskState is BUSY
+		  		9.3.1 pass
+		  	9.4 If diskState is IDLE
+		  		9.4.1. Pop task from disk FIFO
+			  	9.4.2. Generate finish time with DISK_MIN and DISK_MAX
+			  	9.4.3. Create disk finish event
+			  	9.4.4. Insert event in event queue
+			  	9.4.5. Set diskState to IDLE
+    If task is finished at the DISK
+		Find corresponding job (in disk 1 or 2)
+		Create CPU arrival event
+		Insert event inside eventQ
+		Set diskState to IDLE
+
+
+removeJobFromDisk Pseudocode
+============================
+10. Set pointer of head_ref to DISK_1
+	Set pointer of last to NULL
+	Set pointer of temp to NULL
+	from <- 1
+
+	while head_ref is not NULL and head_ref->job.jobNo is not equal to jobNo
+		last <- head_ref
+		Set pointer head_ref to head_ref->next
+		Print job number
+
+	if head_ref is not NULL
+		Set head_ref to DISK_2
+		from <- 2;
+		
+        while head_ref is not NULL and head_ref->job.jobNo is not equal to jobNo
+			last <- head_ref
+		Set pointer head_ref to head_ref->next
+		Print job number
+
+	if head_ref is not NULL
+		print Error statement and exit
+
+	if last is NULL
+		if from is equal to 1
+			Set temp to DISK_1
+			DISK_1 <- DISK_1->next
+			Free memory for temp variable
+            Decrement disk1Nodes
+		else
+			Set temp to DISK_2
+			DISK_2 <- DISK_2->next;
+			Free memory for temp variable
+			Decrement disk2Nodes
+	else
+		Set last to pointer head_ref->next
+
+        if from is equal to 1
+			Decrement disk1Nodes
+		else
+			Decrement disk2Nodes
+	
+    return pointer of head_ref->job
