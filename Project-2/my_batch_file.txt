@@ -1,0 +1,11 @@
+ls
+echo hello
+ls > batchtest.txt
+dir . > batchtest.txt
+ls -l >> batchtest.txt
+cd ..
+cat < batchtest.txt
+pause
+ls | wc
+environ | wc
+help
