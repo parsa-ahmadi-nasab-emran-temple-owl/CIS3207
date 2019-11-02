@@ -2,6 +2,7 @@
 Project 3: Networked Spell Checker
 
 Description of the project:
+
 the high level of network sockets is that they are communication channels between pairs of processes
 
 they differ from pipes in that a pair of processes communicating via a socket may reside on different machines, and that the channel is bi-directional (functioning in two directions)
