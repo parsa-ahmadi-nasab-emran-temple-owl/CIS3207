@@ -1,3 +1,5 @@
+// Project 3: Networked Spell Checker
+
 // Server Main Thread:
 
 // create a DEFAULT_DICTIONARY which is a defined constant if the name of the dictionary file is not provided
