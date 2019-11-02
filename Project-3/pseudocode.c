@@ -1,5 +1,8 @@
 // Project 3: Networked Spell Checker
 
+// Testing:
+    // I will be testing it using multiple servers and clients to make sure it's working well (to send and receive data) without any deadlocks and use debugging feature to help me debug my code.
+
 // create a socket descriptor using dup2() function just like we did for the file descriptors
 
 // Server Main Thread:
@@ -77,3 +80,4 @@
     // if a word is not in the dictionary, then it's not considered to be spelled correctly
 
 // must synchronize the access to the work queue and the log queue using mutual exclusion, locks, and condition variables to help prevent deadlock
+ 
