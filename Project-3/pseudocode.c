@@ -79,5 +79,5 @@
     // if a word is in the dictionary, then it's considered to be spelled correctly
     // if a word is not in the dictionary, then it's not considered to be spelled correctly
 
-// must synchronize the access to the work queue and the log queue using mutual exclusion, locks, and condition variables to help prevent deadlock
+// must synchronize the access to the work queue and the log queue using mutual exclusion, locks, and condition variables to help prevent deadlocks in the program
  
