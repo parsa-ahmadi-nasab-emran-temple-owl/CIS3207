@@ -44,3 +44,10 @@ the steps involved in establishing a socket on the client side are as follows:
 1. create a socket with the socket() system call
 2. construct a socket to the address of the server by using the connect() system call
 3. send and receive data using read() and write() system calls
+
+the steps involved in establishing a socket on the server side are are follows:
+1. create a socket with the socket() system call
+2. bind the socket to an address using the bind() system call
+3. listen for connections with the listen() system call
+4. accept a communication with the accept() system call, this call typically blocks until a client connects to the server
+5. send and receive data using read() and write() system calls
