@@ -1,6 +1,8 @@
 # CIS3207
 Project 3: Networked Spell Checker
 
+I will be doing the server.c and the client.c along with the pseudo code for this project since I have waited til the weekend before its due.
+
 Description of the project:
 
 the high level of network sockets is that they are communication channels between pairs of processes
