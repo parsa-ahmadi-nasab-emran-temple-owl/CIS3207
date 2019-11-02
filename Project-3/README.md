@@ -1,5 +1,6 @@
 # CIS3207
-Project 3: Spell Check
+Project 3: Networked Spell Checker
+
 Description of the project:
 the high level of network sockets is that they are communication channels between pairs of processes
 
