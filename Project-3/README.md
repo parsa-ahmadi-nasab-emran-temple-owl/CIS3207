@@ -3,6 +3,26 @@ Project 3: Networked Spell Checker
 
 I will be doing the server.c and the client.c along with the pseudo code for this project since I have waited til the weekend before its due.
 
+I have finished the following things for the server program:
+  
+  created a thread that would monitor a log queue and process entries by removing and writing them to the log file
+  
+  created a thread that would accept and distribute the connection requests
+  
+  created a thread that would check to see if the word is in the array list of words and it will return result that either the      word is spelled correctly or is spelled incorrectly
+  
+  set up a socket for this server program
+  
+  defined a constant DEFAULT_DICTIONARY for it
+  
+  defined a constant DEFAULT_PORT for it
+
+I have finished the following things for this client program:
+  
+  set up a socket for this client program
+  
+  defined a constant DEFAULT_PORT for it
+
 Description of the project:
 
 the high level of network sockets is that they are communication channels between pairs of processes
