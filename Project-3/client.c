@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     if(argv[2] != 2){
         port_number = DEFAULT_PORT;
     }
-    port_number = character_integer_to_integer(argv[2]);
+    port_number = atoi(argv[2]); // character integer to integer conversion
     socket_file_descriptor = socket(stream_for_the_socket, 0);
     if (socket_file_descriptor < 0){
         error("There was an issue with opening of the socket.");

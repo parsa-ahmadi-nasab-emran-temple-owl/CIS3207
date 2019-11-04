@@ -80,11 +80,11 @@ int main(int argc, char *argv[]){
     }
     buffer_zero((char *) &server_address, sizeof(server_address));
     if(argv[1] == 1){
-        port_number = atoi(argv[1]);
+        port_number = atoi(argv[1]); // a character integer to integer conversion
         return port_number;
     }
     if(argv[1] != 1){
-        port_number = atoi(DEFAULT_PORT);
+        port_number = atoi(DEFAULT_PORT); // a character integer to integer conversion
         return port_number;
     }
     server_address.sin_family = AF_INET;
