@@ -2,8 +2,12 @@
 //  set up a socket for this client program
 //  defined a constant DEFAULT_PORT for it
 
-
 #include <stdio.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #define DEFAULT_PORT = 24;
 
 void error(char *message)
