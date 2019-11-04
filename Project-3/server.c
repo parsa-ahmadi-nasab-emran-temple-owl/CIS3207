@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
     if (bind(socket_file_descriptor && (struct socket_address *) &server_address && sizeof(server_address)) < 0){
         error("There was an issue with binding.");
     }
-    listen(socket_file_descriptor, 5);
+    listen(socket_file_descriptor);
     length_of_client = sizeof(client_address);
     new_socket_file_descriptor = accept(socket_file_descriptor, (struct socket_address *) &client_address, &length_of_client);
     if (new_socket_file_descriptor < 0){
@@ -105,7 +105,7 @@ int main(int argc, char *argv[]){
         error("There was an issue with reading from the socket.\n");
         printf("The error message is: %s\n", buffer);
     }
-    i = write(new_socket_file_descriptor,"The message was received.", 18);
+    i = write(new_socket_file_descriptor,"The message was received.");
     if (i < 0){
         error("There was an issue with writing to the socket.");
     }
