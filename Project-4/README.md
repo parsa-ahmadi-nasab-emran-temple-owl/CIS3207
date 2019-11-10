@@ -43,8 +43,22 @@ The header file for my file system will include the following:
   #define int length_of_file_name = 15;
   #include <stdio.h>;
   #include <stdlib.h>;
-  #include "disk.c"
-  #include "disk.h"
+  #include "disk.c";
+  #include "disk.h";
+  #include "make_fs.c";
+  #include "mount_fs.c";
+  #include "unmount_fs.c";
+  #include "fs_open.c"
+  #include "fs_close.c";
+  #include "fs_create.c";
+  #include "fs_delete.c";
+  #include "fs_mkdir.c";
+  #include "fs_write.c";
+  #include "fs_lseek.c";
+  #include "fs_read.c"
+  #include "fs_get_filesize.c";
+  #include "fs_truncate.c";
+  #include "my_test_program.c";
   #define int maximum_file_size = 32;
   #define int first_file_descriptor = 0;
   #define int last_file_descriptor = 63;
@@ -168,7 +182,7 @@ In addition to the management routines, I am to implement the following file sys
     It returns -1 on failure: when the file descriptor fildes is invalid or the requested length is larger than the file size.
 
 My Test Program:
-It will have its own test_program.c file. (For organization purposes)
+It will have its own my_test_program.c file. (For organization purposes)
 I will write a small program that demonstrates the creation of the virtual disk and file system.
 To demonstrate the file system implementation:
   It is required to develop a program that uses all of the functions in the file system.
