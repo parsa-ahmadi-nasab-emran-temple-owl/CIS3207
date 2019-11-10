@@ -155,7 +155,7 @@ In addition to the management routines, I am to implement the following file sys
     It returns -1 on failure: when the file descriptor fildes is invalid or the requested length is larger than the file size.
 
 My Test Program:
-Write a small program that demonstrates the creation of the virtual disk and file system.
+I will write a small program that demonstrates the creation of the virtual disk and file system.
 To demonstrate the file system implementation:
   It is required to develop a program that uses all of the functions in the file system.
-This program will mount the virtual disk and then demonstrate copying a file from the real OS file system to my file system and copying a file from my file system to the OS file system by re-running it and then showing the directory and virtual disl contents.
+This program will mount the virtual disk and then demonstrate copying a file from the real OS file system to my file system and copying a file from my file system to the OS file system by re-running it and then showing the directory and virtual disk contents.
