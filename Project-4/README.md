@@ -1,7 +1,7 @@
 # CIS3207
 Project 4: Implementing a Simple File System on Top of a Virtual Disk
 data structures:
-super blockvo
+super block
   the first block of disk
   it stores information about the location of the other data structures
   for example, it can be stored in the upper block the whereabouts of the file allocation table (FAT), the directory, and the  start of the data blocks
