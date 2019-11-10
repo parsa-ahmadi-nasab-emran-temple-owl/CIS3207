@@ -52,6 +52,7 @@ The header file for my file system will include the following:
   
 To manage my file system, I have to provide the following three functions:
 - int make_fs(char* disk_name);
+    It will have its own make_fs.c file. (For organization purposes)
     creates a fresh and empty file system on the virtual disk
     make_disk(disk_name);
       first invoke this function to create a new disk
@@ -59,6 +60,7 @@ To manage my file system, I have to provide the following three functions:
     returns 0 on success
     returns -1 when the disk_name could not be created, opened, or properly initialized
 - int mount_fs(char* disk_name);
+    It will have its own mount_fs.c file. (For organization purposes)
     mounts a file system that is stored on a virtual disk with name disk_name
     my file system becomes ready for use
     I need to open the disk and then load the meta-information that is necessary to handle the file system operations.
@@ -67,6 +69,7 @@ To manage my file system, I have to provide the following three functions:
       when the disk_name could not be opened
       when the disk does not contain a valid file system
 - int unmount_fs(char* disk_name);
+    It will have its own unmount_fs.c file. (For organization purposes)
     unmounts my file system from a virtual disk with name disk_name
     As part of this operation, I need to write back all meta-information so that the disk persistently reflects all changes that were made to the file system.
     I should also close the disk.
@@ -78,6 +81,7 @@ To manage my file system, I have to provide the following three functions:
 
 In addition to the management routines, I am to implement the following file system functions(which are very similar to the corresponding Linux file system operations). These file system fuctions require that a file system was previously mounted. The file systems functions are as follows:
 - int fs_open(char* name);
+    It will have its own fs_open.c file. (For organization purposes)
     The file specified by name(in this case, name is a path to the file that is to be opened, including the actual filename part of the path) is opened for reading and writing, and the file descriptor corresponding to this file is returned to the calling function.
     If successful, it returns a non-negative integer, which is a file descriptor that can be used to subsequently access this file.
     Note that the same file(file with the same name) can be opened multiple times.
@@ -87,11 +91,13 @@ In addition to the management routines, I am to implement the following file sys
       when there are already 64 file descriptors open
      When a file is opened, the file offset(seek pointer) is set to 0(the beginning of the file).
 - int fs_close(int fildes);
+    It will have its own fs_close.c file. (For organization purposes)
     The file descriptor fildes is closed.
     A closed file descriptor can no longer be used to access the corresponding file.
     Upon successful completion, a value of 0 is returned.
     In case the file descriptor fildes doesn't exist or isn't open, it returns -1.
 - int fs_create(char* name);
+    It will have its own fs_create.c file. (For organization purposes)
     It creates a new file with name name in the file system(name is the path to the file including the name of the file itself).
     The file is initially empty.
     The maximum length for a file name is 15 characters(this is also the maximum length of a directory name).
@@ -102,6 +108,7 @@ In addition to the management routines, I am to implement the following file sys
       when the file name is too long(it exceeds 15 characters for the directory name and 15 characters for the name of the file)
       when there are already 256 files present in a specified directory
 - int fs_delete(char* name);
+    It will have its own fs_delete.c file. (For organization purposes)
     It deletes the file with the path and name name from the directory of the file system and frees all data blocks and meta-information that corresponds to that file.
     The file that is being deleted must not be opened. (In other words, the file that is being deleted must be closed.)
     That is, there can't be any open file descriptor that refers to the file name.
@@ -111,6 +118,7 @@ In addition to the management routines, I am to implement the following file sys
       when the file with name doesn't exist
       when the file is currently open(there exists at least one open file descriptor that is associated with this file)
 - int fs_mkdir(char* name);
+    It will have its own fs_mkdir.c file. (For organization purposes)
     It attempts to create a directory with the name name.
     It returns 0 on success.
     It returns -1 on failure:
@@ -118,6 +126,7 @@ In addition to the management routines, I am to implement the following file sys
       when the file name is too long(it exceeds 15 characters for the directory name)
       when there are already 256 files present in the directory
 - int fs_write(int fildes, void* buf, size_t nbyte);
+    It will have its own fs_write.c file. (For organization purposes)
     It attempts to write nbyte bytes of data to the file referenced by the descriptor fildes from the buffer printed by the buf.
     It assumes that the buffer buf holds at least nbyte bytes.
     When it attempts to write past the end of the file, the file is automatically extended to hold additional bytes.
@@ -127,6 +136,7 @@ In addition to the management routines, I am to implement the following file sys
     It returns -1 on failure when the file descriptor fildes isn't valid.
     It implicitely increments the file pointer by the number of bytes that were actually written.
 - int fs_lseek(int fildes, off_t offset);
+    It will have its own fs_lseek.c file. (For organization purposes)
     It sets the file pointer(the offset used for read and write operations) associated with the file descriptor fildes to the argument offset.
     It is an error to set the file pointer beyond the end of the file.
     To append to a file, one can set the file pointer to the end of a file, for example. by calling fs_lseek(fd, fs_get_filesize(fd));
@@ -136,6 +146,7 @@ In addition to the management routines, I am to implement the following file sys
       when the requested offset is larger than the file size
       when the offset is less than 0
 - int fs_read(int fildes, void* buf, size_t nbyte);
+    It will have its own fs_read.c file. (For organization purposes)
     It attempts to read nbyte bytes of data from the file referenced by the descriptor fildes into the buffer pointed to by buf.
     It assumes that the buffer buf is large enough to hold at least nbyte bytes.
     When it attempts to read past the end of the file, it reads all bytes until the end of the file.
@@ -144,9 +155,11 @@ In addition to the management routines, I am to implement the following file sys
     It returns -1 on error when file descriptor fildes isn't valid.
     This function implicitely increments the file pointer by the number of bytes that were actually read.
 - int fs_get_filesize(int fildes);
+    It will have its own fs_get_filesize.c file. (For organization purposes)
     It returns the current size of the file pointed to by the file descriptor fildes.
     In case fildes isn't valid, it returns -1.
 - int fs_truncate(int fildes, off_t length);
+    It will have its own fs_truncate.c file. (For organization purposes)
     It causes the file referenced by fildes to be truncated to length bytes in size.
     If the file was previously larger than this new size, the extra data are lost and the corresponding data blocks on disk(if any) must be freed.
     It's not possible to extend the file using this function.
@@ -155,6 +168,7 @@ In addition to the management routines, I am to implement the following file sys
     It returns -1 on failure: when the file descriptor fildes is invalid or the requested length is larger than the file size.
 
 My Test Program:
+It will have its own test_program.c file. (For organization purposes)
 I will write a small program that demonstrates the creation of the virtual disk and file system.
 To demonstrate the file system implementation:
   It is required to develop a program that uses all of the functions in the file system.
