@@ -66,6 +66,7 @@ The header file for my file system will include the following:
   #define int first_file_descriptor = 0;
   #define int last_file_descriptor = 63;
   #define int fd;
+  #include <sys/mman.h>;
   
 To manage my file system, I have to provide the following three functions:
 - int make_fs(char* disk_name);
@@ -73,6 +74,7 @@ To manage my file system, I have to provide the following three functions:
     creates a fresh and empty file system on the virtual disk
     make_disk(disk_name);
       first invoke this function to create a new disk
+    invoke nmap(void* start, size_t, int port, int flags, int fd, off_t offset) to create the FAT table for the file system
     open this disk and write and initialize the necessary meta-information for my file system so that it can be later used (mounted)
     returns 0 on success
     returns -1 when the disk_name could not be created, opened, or properly initialized
