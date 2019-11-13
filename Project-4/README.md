@@ -38,9 +38,12 @@ The header file for my file system will include the following:
   #define int length_of_block = 4096;
   #define int first_block = 0;
   #define int last_block = 16384;
+  #define int current_number_of_files = 0;
   #define int number_of_files = 256;
   #define int length_of_directory_name = 15;
   #define int length_of_file_name = 15;
+  #define int length_of_current_file_name = 0;
+  #define int length_of_current_directory_name = 0;
   #include <stdio.h>;
   #include <stdlib.h>;
   #include "disk.c";
@@ -70,18 +73,39 @@ To manage my file system, I have to provide the following three functions:
     creates a fresh and empty file system on the virtual disk
     make_disk(disk_name);
       first invoke this function to create a new disk
-    open this disk and write and initialize the necessary meta-information for my file system so that it can ne later used (mounted)
+    open this disk and write and initialize the necessary meta-information for my file system so that it can be later used (mounted)
     returns 0 on success
     returns -1 when the disk_name could not be created, opened, or properly initialized
+int make_fs(char* disk_name){
+	if(disk_name != null){
+		first invoke make_disk(disk_name); to create a new disk
+		open the disk using the fopen file pointer to open the disk
+		write and initialize the necessary meta-information for the disk
+		return 0;
+	}
+	else{
+		return -1;
+	}
+}
 - int mount_fs(char* disk_name);
     It will have its own mount_fs.c file. (For organization purposes)
-    mounts a file system that is stored on a virtual disk with name disk_name
+    mounts my file system that is stored on a virtual disk with name disk_name
     my file system becomes ready for use
     I need to open the disk and then load the meta-information that is necessary to handle the file system operations.
     returns 0 on success
     returns -1 on failure:
       when the disk_name could not be opened
       when the disk does not contain a valid file system
+int mount_fs(char* disk_name){
+	if(disk_name != null){
+		open the disk using the fopen file pointer to open the disk
+		load the meta-information that is used for handling the file system operations
+		return 0;
+	}
+	else{
+		return -1;
+	}
+}
 - int unmount_fs(char* disk_name);
     It will have its own unmount_fs.c file. (For organization purposes)
     unmounts my file system from a virtual disk with name disk_name
@@ -92,11 +116,21 @@ To manage my file system, I have to provide the following three functions:
       when the disk disk_name could not be closed
       when data could not be written to the disk
     If there are any file descriptors(that point to files in the file system that is about to be unmounted), this function will close them.
+int unmount_fs(char* disk_name){
+	if(disk_name != null){
+		write back all meta-information so the disk persistently reflects al changes that were made to the file system
+		close the disk
+		return 0;
+	}
+	else{
+		return -1;
+	}
+} 
 
 In addition to the management routines, I am to implement the following file system functions(which are very similar to the corresponding Linux file system operations). These file system fuctions require that a file system was previously mounted. The file systems functions are as follows:
 - int fs_open(char* name);
     It will have its own fs_open.c file. (For organization purposes)
-    The file specified by name(in this case, name is a path to the file that is to be opened, including the actual filename part of the path) is opened for reading and writing, and the file descriptor corresponding to this file is returned to the calling function.
+    The file specified by name(in this case, name is a path to the file that is to be opened, including the actual filename part of the path) is opened for reading and writing, and the file descriptor corresponding to this file is returned to the calling function and add it to the FAT.
     If successful, it returns a non-negative integer, which is a file descriptor that can be used to subsequently access this file.
     Note that the same file(file with the same name) can be opened multiple times.
     When this happens, the file system is supposed to provide multiple, independent file descriptors.
@@ -104,26 +138,57 @@ In addition to the management routines, I am to implement the following file sys
       when the file with name can't be found
       when there are already 64 file descriptors open
      When a file is opened, the file offset(seek pointer) is set to 0(the beginning of the file).
+int fs_open(char* name){
+	if(name != null){
+		open the file specified by name for reading and writing using fopen file pointer
+		add it to the FAT
+		the file descriptor is returned to the calling function
+		returns the file descriptor
+	}
+	else{
+		returns -1;
+	}
+}
 - int fs_close(int fildes);
     It will have its own fs_close.c file. (For organization purposes)
     The file descriptor fildes is closed.
-    A closed file descriptor can no longer be used to access the corresponding file.
+    A closed file descriptor can no longer be used to access the corresponding file and remove it from the FAT.
     Upon successful completion, a value of 0 is returned.
     In case the file descriptor fildes doesn't exist or isn't open, it returns -1.
+int fs_close(int fildes){
+	if(fildes != null){
+		close the file descriptor fildes that corresponds to its accessed file
+		remove it from the FAT
+		return 0;
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_create(char* name);
     It will have its own fs_create.c file. (For organization purposes)
-    It creates a new file with name name in the file system(name is the path to the file including the name of the file itself).
+    It creates a new file with name name in the file system(name is the path to the file including the name of the file itself) and add it to the FAT.
     The file is initially empty.
     The maximum length for a file name is 15 characters(this is also the maximum length of a directory name).
-    Also, there can be at most 256 files in the directory.
+    Also, there can be at most 256 files in the directory that are also included in the FAT.
     Upon successful completion, a value of 0 is returned.
     It returns -1 on failure:
-      when the file with name already exists(using the full path specified in name)
+      when the file with name already exists(using the full path specified in name) in the FAT
       when the file name is too long(it exceeds 15 characters for the directory name and 15 characters for the name of the file)
       when there are already 256 files present in a specified directory
+int fs_create(char* name){
+	if(name != null && current_number_files < number_of_files && length_of_current_file_name < length_of_file && length_of_current_directory_name < length_of_directory_name){
+		create a new file and map it to its entry in the FAT
+		include its information in the meta-information file
+		return 0;
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_delete(char* name);
-    It will have its own fs_delete.c file. (For organization purposes)
-    It deletes the file with the path and name name from the directory of the file system and frees all data blocks and meta-information that corresponds to that file.
+    It will have its own fs_delete.c file. (For oyyrganization purposes)
+    It deletes the file with the path and name name from the directory of the file system and frees all data blocks and meta-information that corresponds to that file and removes it from the FAT.
     The file that is being deleted must not be opened. (In other words, the file that is being deleted must be closed.)
     That is, there can't be any open file descriptor that refers to the file name.
     When the file is open at the time that this function is called, the call fails and the file is not deleted.
@@ -131,6 +196,7 @@ In addition to the management routines, I am to implement the following file sys
     It returns -1 on failure:
       when the file with name doesn't exist
       when the file is currently open(there exists at least one open file descriptor that is associated with this file)
+
 - int fs_mkdir(char* name);
     It will have its own fs_mkdir.c file. (For organization purposes)
     It attempts to create a directory with the name name.
@@ -139,6 +205,16 @@ In addition to the management routines, I am to implement the following file sys
       when the directory with name already exists
       when the file name is too long(it exceeds 15 characters for the directory name)
       when there are already 256 files present in the directory
+int fs_mkdir(char* name){
+	if(name != null && length_of_current_directory_name < length_of_directory_name && current_number_files < number_of_files){
+		create a new directory and map it to its entry in the FAT
+		include its information in the meta-information file
+		return 0
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_write(int fildes, void* buf, size_t nbyte);
     It will have its own fs_write.c file. (For organization purposes)
     It attempts to write nbyte bytes of data to the file referenced by the descriptor fildes from the buffer printed by the buf.
