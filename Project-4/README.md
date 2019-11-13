@@ -196,7 +196,18 @@ int fs_create(char* name){
     It returns -1 on failure:
       when the file with name doesn't exist
       when the file is currently open(there exists at least one open file descriptor that is associated with this file)
-
+int fs_delete(char* name){
+	if(name != null && the file is not open && the file descriptor(s) is/are not open){
+		close the file descriptor
+		close the file
+		remove its entry from the FAT
+		update its information in the meta information file
+		return 0;
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_mkdir(char* name);
     It will have its own fs_mkdir.c file. (For organization purposes)
     It attempts to create a directory with the name name.
@@ -220,11 +231,22 @@ int fs_mkdir(char* name){
     It attempts to write nbyte bytes of data to the file referenced by the descriptor fildes from the buffer printed by the buf.
     It assumes that the buffer buf holds at least nbyte bytes.
     When it attempts to write past the end of the file, the file is automatically extended to hold additional bytes.
-    In this case, it attempts to write as bytes as possible(i.e., to fill up the entire space that is left).
+    In this case, it attempts to write as many bytes as possible(i.e., to fill up the entire space that is left).
     Upon successful completion, the number of bytes that were actually written is returned.
     This number could be smaller that nbyte when the disk runs out of space(when writing to a full disk, the function returns 0).
     It returns -1 on failure when the file descriptor fildes isn't valid.
     It implicitely increments the file pointer by the number of bytes that were actually written.
+int fs_write(int fildes, void* buf, size_t nbyte){
+	if(all bytes of the file have not been filled && fildes >= 0 && nbyte != maximum_file_size){
+		keep writing to the file
+		update its entry in the FAT
+		update its information in the meta-information file
+		return 0;
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_lseek(int fildes, off_t offset);
     It will have its own fs_lseek.c file. (For organization purposes)
     It sets the file pointer(the offset used for read and write operations) associated with the file descriptor fildes to the argument offset.
@@ -235,6 +257,20 @@ int fs_mkdir(char* name){
       when the file descriptor fildes in invalid
       when the requested offset is larger than the file size
       when the offset is less than 0
+int fs_lseek(int fildes, off_t offset){
+	if(fildes >= 0 && offset >= 0){
+		set the file pointer associated with the file descriptor fildes to argument offset
+		update the file pointer with fildes to offset in the FAT
+		update its information in the meta-information table
+		return 0;
+	}
+	if(fildes == end of file){
+		return -1;
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_read(int fildes, void* buf, size_t nbyte);
     It will have its own fs_read.c file. (For organization purposes)
     It attempts to read nbyte bytes of data from the file referenced by the descriptor fildes into the buffer pointed to by buf.
@@ -244,10 +280,30 @@ int fs_mkdir(char* name){
     This number could be smaller than nbyte when attempting to read past the end of the file(when trying to read while the file pointer is at the end of the file, it returns 0).
     It returns -1 on error when file descriptor fildes isn't valid.
     This function implicitely increments the file pointer by the number of bytes that were actually read.
+int fs_read(int fildes, void* buf, size_t nbyte){
+	if(fildes >=0 && buf != null && nbyte >= 0 && buf is not full && nbyte != the end of file){
+		read nbyte bytes data from the file referenced by fildes in to the buffer pointed to by buf using the information in its FAT entry
+		return the number of bytes that were actually read
+	}
+	if(nbyte == end of file){
+		return 0
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_get_filesize(int fildes);
     It will have its own fs_get_filesize.c file. (For organization purposes)
     It returns the current size of the file pointed to by the file descriptor fildes.
     In case fildes isn't valid, it returns -1.
+int fs_get_filesize(int fildes){
+	if(fildes != null && current_size_the_file != null){
+		return the size of the file using the information in its FAT entry
+	}
+	else{
+		return -1;
+	}
+}
 - int fs_truncate(int fildes, off_t length);
     It will have its own fs_truncate.c file. (For organization purposes)
     It causes the file referenced by fildes to be truncated to length bytes in size.
@@ -256,6 +312,19 @@ int fs_mkdir(char* name){
     When the file pointer is larger than the new length, then it's also set to length(the end of the file).
     Upon successful completion, a value of 0 is returned.
     It returns -1 on failure: when the file descriptor fildes is invalid or the requested length is larger than the file size.
+int fs_truncate(int fildes, off_t length){
+	if(fildes >= 0 && length >= 0){
+		write the extra data to a text file
+		truncate the size of the file to length in size
+		file pointer is set to length(which is the end of the file)
+		update it in its FAT entry
+		update its information in the meta-information file
+		return 0
+	}
+	else{
+		return -1;
+	}
+}
 
 My Test Program:
 It will have its own my_test_program.c file. (For organization purposes)
