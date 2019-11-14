@@ -182,6 +182,9 @@ int fs_create(char* name){
 	if(name != null && current_number_files < number_of_files && length_of_current_file_name < length_of_file && length_of_current_directory_name < length_of_directory_name){
 		create a new file and map it to its entry in the FAT
 		include its information in the meta-information file
+		go through all data blocks in the file system and grouped the occupied ones together and group the unoccupied ones together
+		put the grouped occupied ones to the left of the grouped unoccupied ones
+		put the grouped unoccupied ones to the right of the grouped occupied ones
 		return 0;
 	}
 	else{
