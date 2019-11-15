@@ -3,7 +3,7 @@
 
 /******************************************************************************/
 #define DISK_BLOCKS  16384      /* number of blocks on the disk                */
-#define BLOCK_SIZE   4096      /* block size on "disk"                        */
+#define BLOCK_SIZE   8192      /* block size on "disk" - I changed it to 8192 bytes since I need it for the implementation of my file system                        */
 
 /******************************************************************************/
 int make_disk(char *name);     /* create an empty, virtual disk file          */
