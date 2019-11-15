@@ -18,7 +18,7 @@
 #define size_t nbyte;
 #define off_t offset;
 #define off_t length;
-#define int length_of_block = 4096;
+#define int length_of_block = 8192;
 #define int first_block = 0;
 #define int last_block = 16383;
 #define int current_number_of_files = 0;
