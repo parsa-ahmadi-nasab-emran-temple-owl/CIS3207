@@ -20,6 +20,7 @@
 #define off_t length;
 #define int length_of_block = 8192;
 #define int first_block = 0;
+#define int size_disk = 4429185024;
 #define int last_block = 16383;
 #define int current_number_of_files = 0;
 #define int number_of_files = 256;
