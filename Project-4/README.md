@@ -37,6 +37,7 @@ The header file for my file system will include the following:
   #define int length_of_block = 8192;
   #define int first_block = 0;
   #define int last_block = 16383;
+  #define int size_disk = 4429185024;
   #define int current_number_of_files = 0;
   #define int number_of_files = 256;
   #define int length_of_directory_name = 15;
