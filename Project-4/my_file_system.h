@@ -18,10 +18,9 @@
 #define size_t nbyte;
 #define off_t offset;
 #define off_t length;
-#define int length_of_virtual_disk = 16384;
 #define int length_of_block = 4096;
 #define int first_block = 0;
-#define int last_block = 16384;
+#define int last_block = 16383;
 #define int current_number_of_files = 0;
 #define int number_of_files = 256;
 #define int length_of_directory_name = 15;
