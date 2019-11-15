@@ -35,9 +35,9 @@ The header file for my file system will include the following:
   #define off_t offset;
   #define off_t length;
   #define int length_of_virtual_disk = 16384;
-  #define int length_of_block = 4096;
+  #define int length_of_block = 8192;
   #define int first_block = 0;
-  #define int last_block = 16384;
+  #define int last_block = 16383;
   #define int current_number_of_files = 0;
   #define int number_of_files = 256;
   #define int length_of_directory_name = 15;
@@ -62,7 +62,7 @@ The header file for my file system will include the following:
   #include "fs_get_filesize.c";
   #include "fs_truncate.c";
   #include "my_test_program.c";
-  #define int maximum_file_size = 32;
+  #define int file_size = 32;
   #define int first_file_descriptor = 0;
   #define int last_file_descriptor = 63;
   #define int fd;
@@ -242,7 +242,7 @@ int fs_mkdir(char* name){
     It returns -1 on failure when the file descriptor fildes isn't valid.
     It implicitely increments the file pointer by the number of bytes that were actually written.
 int fs_write(int fildes, void* buf, size_t nbyte){
-	if(all bytes of the file have not been filled && fildes >= 0 && nbyte != maximum_file_size){
+	if(all bytes of the file have not been filled && fildes >= 0 && nbyte != file_size){
 		keep writing to the file
 		update its entry in the FAT
 		update its information in the meta-information file
