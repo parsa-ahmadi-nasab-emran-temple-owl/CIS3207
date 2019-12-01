@@ -1,3 +1,4 @@
+//header
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -6,6 +7,7 @@
 #include "disk.c"
 #include "disk.h"
 
+//defined constants
 #define SIZE_OF_BLOCK 4096
 #define FIRST_BLOCK 0
 #define SIZE_OF_DISK 67108864
@@ -27,6 +29,7 @@
 #define UNUSED -1
 #define LENGTH_OF_DISK_NAME 15
 
+//defined functions
 int make_fs(char* disk_name);
 int mount_fs(char* disk_name);
 int unmount_fs(char* disk_name);
@@ -51,6 +54,7 @@ int extension_for_file_name_char_count(char* extension_for_the_file_name);
 int used_entries();
 int unused_entries();
 
+//defined variables
 int status;
 int status1;
 int status2;
@@ -67,6 +71,7 @@ char* buffer_for_first_index;
 char* buffer_for_next_index;
 int file_descriptor;
 
+//defined typedef structs
 typedef struct
 {
     int num_directories_contained;
@@ -178,6 +183,7 @@ typedef struct
     
 }FILE_DESCRIPTOR;
 
+//declarations of pointers to structs
 VOLUME *disk_vol;
 
 DIR *directory;
