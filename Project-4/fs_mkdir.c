@@ -1,5 +1,8 @@
-#include "my_file_system.h";
+//
+//  fs_mkdir.c
+//  
+//
+//  Created by Parsa Ahmadi Nasab Emran on 11/30/19.
+//
 
-int fs_mkdir(char* name){
-    return 0;
-}
+#include <stdio.h>

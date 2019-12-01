@@ -1,11 +1,8 @@
-#include "my_file_system.h";
+//
+//  fs_get_filesize.c
+//  
+//
+//  Created by Parsa Ahmadi Nasab Emran on 11/30/19.
+//
 
-int fs_get_filesize(int fildes){
-    if(!descriptors[fildes].file_descriptor_in_use){
-        printf("error: Invalid file descriptor.\n");
-        return -1;
-    }
-    else{
-        return allocation[descriptors[fildes].file_descriptor_in_use].file_size;
-    }
-}
+#include <stdio.h>

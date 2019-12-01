@@ -1,55 +1,12 @@
-int make_fs(char* disk_name);
-int mount_fs(char* disk_name);
-int unmount_fs(char* disk_name);
-int fs_open(char* name);
-int fs_close(int fildes);
-int fs_create(char* name);
-int fs_delete(char* name);
-int fs_mkdir(char* name);
-int fs_read(int fildes, void* buf, size_t nbyte);
-int fs_write(int fildes, void* buf, size_t nbyte);
-int fs_get_filesize(int fildes);
-int fs_lseek(int fildes, off_t offset);
-int fs_truncate(int fildes, off_t offset);
-int find_file(char* name);
-int find_free_block(int index_of_file);
-int find_free_file_descriptor(int index_of_file);
-int find_next_block(int current_block, int index_of_file);
-int get_file_descriptor(int index_of_file);
-#define LENGTH_OF_BLOCK 4096;
-#define FIRST_BLOCK 0;
-#define SIZE_OF_DISK 67108864;
-#define LAST_BLOCK 16383;
-#define MAXIMUM_NUMBER_OF_FILES 256;
-#define LENGTH_OF_DIRECTORY_NAME 15;
-#define LENGTH_OF_FILE_NAME = 15;
-#define FIRST_FILE_DESCRIPTOR 0;
-#define LAST_FILE_DESCRIPTOR 63;
-#define FIRST_FILE_INDEX 0;
-#define LAST_FILE_INDEX 255;
-#include <stdio.h>;
-#include <stdlib.h>;
-#include <sys/mman.h>;
-#include "disk.c";
-#include "disk.h";
-#include "make_fs.c";
-#include "mount_fs.c";
-#include "unmount_fs.c";
-#include "fs_open.c"
-#include "fs_close.c";
-#include "fs_create.c";
-#include "fs_delete.c";
-#include "fs_mkdir.c";
-#include "fs_write.c";
-#include "fs_lseek.c";
-#include "fs_read.c"
-#include "fs_get_filesize.c";
-#include "fs_truncate.c";
-#include "space_allocation.c";
-#include "my_file_system.h";
-#include "my_file_system.c";
-#include "find_file.c";
-#include "find_free_block.c";
-#include "find_free_file_descriptor.c";
-#include "find_next_block.c";
-#include "get_file_descriptor.c";
+//
+//  my_file_system.h
+//  
+//
+//  Created by Parsa Ahmadi Nasab Emran on 11/30/19.
+//
+
+#ifndef my_file_system_h
+#define my_file_system_h
+
+
+#endif /* my_file_system_h */
