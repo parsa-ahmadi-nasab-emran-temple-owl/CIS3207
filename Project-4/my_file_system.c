@@ -1,3 +1,7 @@
+//Parsa Ahmadi Nasab Emran
+//TU ID: 915408114
+//ACCESSNET USERNAME: tug81042
+
 //header
 #include <stdio.h>
 #include <stdlib.h>
