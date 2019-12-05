@@ -61,7 +61,7 @@ int unused_entries();
 int name_for_file_system_char_count(char* name_for_file_system);
 int status_make_fs(char* name_for_file_system);
 int status_mount_fs(char* name_for_disk);
-int status_fs_create(char* file_name, char* file_name, int extension_for_the_file_name, int size_of_the_file);
+int status_fs_create(char* file_name, char* file_name1, int extension_for_the_file_name, int size_of_the_file);
 int status_fs_delete(char* file_name);
 int status_get_filesize(int fd);
 int status_fs_mkdir(char* directory_name);
@@ -90,6 +90,12 @@ char* buffer_for_first_index;
 char* buffer_for_next_index;
 int file_descriptor;
 int fd;
+char file_name[LENGTH_OF_FILE_NAME + 1];
+char extension_for_the_file_name[EXTENSION_LENGTH + 1];
+int size_of_the_file;
+char directory_name[LENGTH_OF_DIRECTORY_NAME + 1];
+char name_for_disk[LENGTH_OF_DISK_NAME + 1];
+char name_for_file_system[LENGTH_OF_NAME_FOR_THE_FILE_SYSTEM + 1];
 
 //definition of typedef structs
 typedef struct
@@ -227,12 +233,12 @@ FILE_ALLOCATION *files;
 //main
 //also test for my FAT File System
 int main(int argc, char *argv[]) {
-    char file_name[LENGTH_OF_FILE_NAME + 1];
-    char extension_for_the_file_name[EXTENSION_LENGTH + 1];
-    int size_of_the_file;
-    char directory_name[LENGTH_OF_DIRECTORY_NAME + 1];
-    char name_for_disk[LENGTH_OF_DISK_NAME + 1];
-    char name_for_file_system[LENGTH_OF_NAME_FOR_THE_FILE_SYSTEM + 1];
+    file_name[LENGTH_OF_FILE_NAME + 1];
+    extension_for_the_file_name[EXTENSION_LENGTH + 1];
+    size_of_the_file;
+    directory_name[LENGTH_OF_DIRECTORY_NAME + 1];
+    name_for_disk[LENGTH_OF_DISK_NAME + 1];
+    name_for_file_system[LENGTH_OF_NAME_FOR_THE_FILE_SYSTEM + 1];
     int status1;
     int status2;
     int status3;
@@ -332,7 +338,6 @@ int main(int argc, char *argv[]) {
     printf("PLease enter 7: ");
     scanf("%d", user_input);
     fd = fs_open(file_name);
-    off_t offset = 15;
     status_fs_lseek(fd, offset);
     printf("Please enter 8: ");
     scanf("%d", user_input);
@@ -343,8 +348,6 @@ int main(int argc, char *argv[]) {
     printf("Please enter 9: ");
     scanf("%d", user_input);
     fd = fs_open(file_name);
-    char buffer1[BLOCK_SIZE] = "";
-    size_t nbyte = 100;
     status_fs_write(fd, buffer1, nbyte);
     printf("Please enter 10: ");
     scanf("%d", user_input);
@@ -370,7 +373,7 @@ int status_fs_lseek(int fd, off_t offset){
 //status_fs_read
 int status_fs_read(int fd, void* buf, size_t nbyte){
     int p = 0;
-    char buffer1[BLOCK_SIZE] = buf;
+    char buffer1[BLOCK_SIZE];
     char value1[BLOCK_SIZE];
     for(i = 0; i < BLOCK_SIZE; i++){
         value1[i + BLOCK_SIZE] = "hello student";
@@ -389,17 +392,17 @@ int status_fs_write(int fd, void* buf, size_t nbyte){
     int k = 0;
     int status_fs_write = 0;
     fd = fs_open(file_name);
-    char string1[BLOCK_SIZE] = buf;
+    char string1[BLOCK_SIZE];
     for(i = 0; i < BLOCK_SIZE; i++){
         string1[i + BLOCK_SIZE] = "hello world";
     }
-    char string2[BLOCK_SIZE] = buf;
+    char string2[BLOCK_SIZE];
     for(i = 0; i < BLOCK_SIZE; i++){
         string2[i + BLOCK_SIZE] = "welcome to the world";
     }
-    char string3[BLOCK_SIZE] = buf;
+    char string3[BLOCK_SIZE];
     for(i = 0; i < BLOCK_SIZE; i++){
-        string[i + BLOCK_SIZE] = "welcome to planet earth";
+        string1[i + BLOCK_SIZE] = "welcome to planet earth";
     }
     int status_fs_write_1 = fs_write(fd, string1, BLOCK_SIZE);
     int status_fs_write_2 = fs_write(fd, string2, BLOCK_SIZE);
@@ -453,9 +456,9 @@ int status_mount_fs(char* name_for_disk){
 }
 
 //status_fs_create
-int status_fs_create(char* file_name, char* file_name, int extension_for_file_name, int size_of_the_file){
+int status_fs_create(char* file_name, char* file_name1, int extension_for_file_name, int size_of_the_file){
     int status_fs_create = 0;
-    status_fs_create = fs_create(file_name, file_name, extension_for_the_file_name, size_of_the_file);
+    status_fs_create = fs_create(file_name, file_name1, extension_for_file_name, size_of_the_file);
     if(status_fs_create == 0){
         printf("The file with the name, %s, was created.\n", file_name);
         return 0;
@@ -481,7 +484,7 @@ int status_fs_delete(char* file_name){
 }
 
 //status_get_filesize
-int status_get_filesize(int fd){
+int status_fs_get_filesize(int fd){
     int status_fs_get_filesize = 0;
     fd = fs_open(file_name);
     if(fd >= 0 && fd <= 63){
@@ -542,7 +545,7 @@ int status_fs_open(char* file_name){
 int status_fs_truncate(int fd, off_t offset){
     int status_fs_truncate = 0;
     fd = fs_open(file_name);
-    off_t offset = 15;
+    offset = 15;
     status_fs_truncate = fs_truncate(fd, offset);
     if(fd >= 0 && fd <= 63){
         if(status_fs_truncate == 0){
@@ -551,7 +554,7 @@ int status_fs_truncate(int fd, off_t offset){
         }
         if(status_fs_truncate == -1){
             printf("The file with the name, %s, is not truncated by %d bytes since %d is not valid.\n", file_name, offset);
-            return -1:
+            return -1;
         }
     }
 }
@@ -579,7 +582,7 @@ int status_fs_close(int fd){
         printf("The file with the name, %s, is closed.\n", file_name);
         return 0;
     }
-    int(status_fs_close == -1){
+    if(status_fs_close == -1){
         printf("The file with the name, %s, is not closed.\n", file_name);
         return -1;
     }
